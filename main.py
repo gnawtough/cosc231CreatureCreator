@@ -28,13 +28,14 @@ def parse_json(animal_name, data):
             return animal['attributes']
     return None
 def main():
+    print("Welcome to the creature creator!")
     #input
-    animalInput1 = input("Pick the name of the first animal you want:")
-    animalInput2 = input("Pick the name of the second animal you want:")
+    animalInput1 = input("Pick the name of the first animal you want to combine:")
+    animalInput2 = input("Pick the name of the second animal you want to combine:")
 
     #mash front of animal one and back of animal two names together
     creature = animalInput1[:len(animalInput1) // 2] + animalInput2[len(animalInput2) // 2:]
-    print(f"The name of the creature you created is:  {creature}")
+    print(f"\n--- The name of the creature you created is:  {creature} ---")
     print("Here are some facts about your creature: ")
 
     retreive_facts(animalInput1, animalInput2)
