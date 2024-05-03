@@ -11,8 +11,10 @@ def retreive_facts(firstAnimal, secondAnimal):
 
 def parse_json(animal_name, data):
     for animal in data:
-        if animal['title'].lower() == animal_name.lower():
+        if animal_name.lower() in animal['title'].lower():
+            print(animal['title'])
             return animal['attributes']
+
     return None
 def main():
     animalInput1 = input("Pick the name of the first animal you want:")
