@@ -8,9 +8,13 @@ def retreive_facts(firstAnimal, secondAnimal):
     firstAnimal = parse_json(firstAnimal, data)
     secondAnimal = parse_json(secondAnimal, data)
 
+    if not firstAnimal or not secondAnimal:
+        print("One animal was not found.")
+        return
+
     keys = list(firstAnimal.keys()) #attribute keys
     #"randomly" selects facts by alternating which animal the facts come from every other loop
-    for i in range(0, 9):
+    for i in range(min(len(keys), 9)):
         if i % 2 == 0:
             print(f"{keys[i]}: {firstAnimal[keys[i]]}")
         else:
