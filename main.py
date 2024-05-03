@@ -35,11 +35,12 @@ def main():
 
     #mash front of animal one and back of animal two names together
     creature = animalInput1[:len(animalInput1) // 2] + animalInput2[len(animalInput2) // 2:]
-    print(f"\n--- The name of the creature you created is:  {creature} ---")
-    print("Here are some facts about your creature: ")
+    print(f"\n--- The name of the creature you created is: a {creature} ---")
+    print(f"--- Here are some facts about your creature: ")
 
     retreive_facts(animalInput1, animalInput2)
 
+    print("--- Thanks for creating a creature!")
 
 main()
 
