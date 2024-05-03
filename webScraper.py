@@ -11,11 +11,21 @@ def extract_links(html):
     soup = BeautifulSoup(html, 'html.parser')
     return [a['href'] for a in soup.select('div.entry-content a') if a['href'].startswith('https://factanimal.com')]
 
+
 def extract_facts(url):
     html = fetch_page(url)
     soup = BeautifulSoup(html, 'html.parser')
-    title = soup.find('h1').get_text(strip=True)
+    h1_tag = soup.find('h1')
+    if h1_tag is None:
+        print(f"No title found at {url}")
+        return None  # Or you can return some default data structure
+
+    title = h1_tag.get_text(strip=True)
     facts_section = soup.find('div', class_='entry-content')
+    if facts_section is None:
+        print(f"No facts section found at {url}")
+        return None  # Or handle it in another suitable way
+
     facts = []
 
     for fact in facts_section.find_all('p'):
@@ -32,6 +42,7 @@ def extract_facts(url):
         'facts': facts
     }
 
+
 def main():
     index_url = 'https://factanimal.com/animals/'
     index_html = fetch_page(index_url)
@@ -42,13 +53,18 @@ def main():
     for link in animal_links:
         try:
             facts = extract_facts(link)
-            all_animal_facts.append(facts)
-            print(f"Extracted facts for {facts['title']}")
+            if facts is not None:
+                all_animal_facts.append(facts)
+                print(f"Extracted facts for {facts['title']}")
+            else:
+                print(f"Skipped {link} due to missing data.")
         except requests.HTTPError as e:
             print(f"Failed to fetch {link}: {e}")
 
     with open('animal_facts.json', 'w') as f:
         json.dump(all_animal_facts, f, indent=4)
 
+
 if __name__ == '__main__':
     main()
+
