@@ -18,7 +18,7 @@ def extract_facts(url):
     h1_tag = soup.find('h1')
     if h1_tag is None:
         print(f"No title found at {url}")
-        return None  # Or you can return some default data structure
+        return None
 
     title = h1_tag.get_text(strip=True)
     facts_section = soup.find('div', class_='entry-content')
