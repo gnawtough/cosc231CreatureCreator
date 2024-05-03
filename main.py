@@ -1,30 +1,36 @@
 import json
 
-
 def retreive_facts(firstAnimal, secondAnimal):
-    with open('animal_facts.json', 'r') as f:
+    with open('animal_facts.json', 'r') as f: #accesses json file scraped from factanimal.com
         data = json.load(f)
 
+    #store dictionaries for each animal in these two variables
     firstAnimal = parse_json(firstAnimal, data)
     secondAnimal = parse_json(secondAnimal, data)
-    #print(firstAnimal['habitat'], secondAnimal['location'])
 
-    keys = list(firstAnimal.keys())
+    keys = list(firstAnimal.keys()) #attribute keys
+    #"randomly" selects facts by alternating which animal the facts come from every other loop
     for i in range(0, 9):
         if i % 2 == 0:
             print(f"{keys[i]}: {firstAnimal[keys[i]]}")
         else:
             print(f"{keys[i]}: {secondAnimal[keys[i]]}")
+
+# this function searches for the animal names in the json file and returns the dictionaries for each
 def parse_json(animal_name, data):
     for animal in data:
+        #finds the first entry that includes the provided string
+        # if input = bee then it will return facts about the africanized bee
+        # json file is alphabetical
         if animal_name.lower() in animal['title'].lower():
-            print(animal['title'])
             return animal['attributes']
     return None
 def main():
+    #input
     animalInput1 = input("Pick the name of the first animal you want:")
     animalInput2 = input("Pick the name of the second animal you want:")
 
+    #mash front of animal one and back of animal two names together
     creature = animalInput1[:len(animalInput1) // 2] + animalInput2[len(animalInput2) // 2:]
     print(f"The name of the creature you created is:  {creature}")
     print("Here are some facts about your creature: ")
