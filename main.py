@@ -1,5 +1,11 @@
 import json
 
+
+def retreive_facts(firstAnimal, secondAnimal):
+    with open('animal_facts.json', 'r') as f:
+        data = json.load(f)
+
+    firstAnimal = data[firstAnimal][]
 def main():
     animalInput1 = input("Pick the name of the first animal you want:")
     animalInput2 = input("Pick the name of the second animal you want:")
