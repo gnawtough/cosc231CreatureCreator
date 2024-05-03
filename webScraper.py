@@ -7,11 +7,12 @@ def fetch_page(url):
     response.raise_for_status()  # Will raise an HTTPError for bad requests (400 or 500)
     return response.text
 
+#self explanatory
 def extract_links(html):
     soup = BeautifulSoup(html, 'html.parser')
     return [a['href'] for a in soup.select('div.entry-content a') if a['href'].startswith('https://factanimal.com')]
 
-
+# parses html for titles and tables for names and attributes
 def extract_facts(url):
     html = fetch_page(url)
     soup = BeautifulSoup(html, 'html.parser')
@@ -24,8 +25,9 @@ def extract_facts(url):
     facts_section = soup.find('div', class_='entry-content')
     if facts_section is None:
         print(f"No facts section found at {url}")
-        return None  # Or handle it in another suitable way
+        return None
 
+    # I guess I can remove facts but it works and i dont want to
     facts = []
 
     for fact in facts_section.find_all('p'):
@@ -36,6 +38,7 @@ def extract_facts(url):
             continue  # Skip headings within the content
         facts.append(fact.get_text(strip=True).lower())
 
+    #these are the real facts, beautiful soup searches for table and returns all data in key:[key:value] format
     animal_attributes = {}
     info_tables = soup.find('tbody')
     if info_tables:
@@ -48,7 +51,7 @@ def extract_facts(url):
                 animal_attributes[key] = value.lower()
 
     return {
-        'title': title[:-6].lower(),
+        'title': title[:-6].lower(), #remove ' facts'
         'url': url,
         'facts': facts,
         'attributes': animal_attributes
@@ -62,6 +65,7 @@ def main():
 
     all_animal_facts = []
 
+    # console logging and monitoring while scraping, takes a few minutes to complete.
     for link in animal_links:
         try:
             facts = extract_facts(link)
