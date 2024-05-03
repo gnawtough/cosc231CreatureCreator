@@ -36,10 +36,22 @@ def extract_facts(url):
             continue  # Skip headings within the content
         facts.append(fact.get_text(strip=True))
 
+    animal_attributes = {}
+    info_tables = soup.find('tbody')
+    if info_tables:
+        rows = info_tables.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            if len(cols) == 2: # each row needs 2 columns
+                key = cols[0].get_text(strip=True).strip(':')
+                value = cols[1].get_text(strip=True)
+                animal_attributes[key] = value
+
     return {
         'title': title,
         'url': url,
-        'facts': facts
+        'facts': facts,
+        'attributes': animal_attributes
     }
 
 
