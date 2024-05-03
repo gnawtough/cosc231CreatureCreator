@@ -16,16 +16,14 @@ def retreive_facts(firstAnimal, secondAnimal):
     #"randomly" selects facts by alternating which animal the facts come from every other loop
     for i in range(min(len(keys), 9)):
         if i % 2 == 0:
-            print(f"{keys[i]}: {firstAnimal[keys[i]]}")
+            print(f"{keys[i].capitalize()}: {firstAnimal[keys[i]]}")
         else:
-            print(f"{keys[i]}: {secondAnimal[keys[i]]}")
+            print(f"{keys[i].capitalize()}: {secondAnimal[keys[i]]}")
 
 # this function searches for the animal names in the json file and returns the dictionaries for each
 def parse_json(animal_name, data):
     for animal in data:
         #finds the first entry that includes the provided string
-        # if input = bee then it will return facts about the africanized bee
-        # json file is alphabetical
         if animal_name.lower() in animal['title'].lower():
             return animal['attributes']
     return None
