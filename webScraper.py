@@ -7,7 +7,7 @@ def fetch_page(url):
     response.raise_for_status()  # Will raise an HTTPError for bad requests (400 or 500)
     return response.text
 
-#self explanatory
+# self explanatory
 def extract_links(html):
     soup = BeautifulSoup(html, 'html.parser')
     return [a['href'] for a in soup.select('div.entry-content a') if a['href'].startswith('https://factanimal.com')]
@@ -38,7 +38,7 @@ def extract_facts(url):
             continue  # Skip headings within the content
         facts.append(fact.get_text(strip=True).lower())
 
-    #these are the real facts, beautiful soup searches for table and returns all data in key:[key:value] format
+    # these are the real facts, beautiful soup searches for table and returns all data in key:[key:value] format
     animal_attributes = {}
     info_tables = soup.find('tbody')
     if info_tables:
